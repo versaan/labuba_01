@@ -1,0 +1,52 @@
+[tool.poetry]
+name = "my_project"
+version = "1.0.0"
+description = "smth do"
+authors = ["Кира Лейченко"]
+packages = [{include = "toolkit", from = "src"}]
+
+
+[tool.poetry.dependencies]
+python = "~3.13"
+
+pydantic = "^2.12.5"
+pytest = "^8.3.5"
+Faker="^21.0.1"
+rstr="^3.2.2"
+structlog = "^26.1.0"
+
+
+[tool.poetry.group.dev.dependencies]
+pre-commit = "^4.5.0"
+black = "^25.11.0"
+ruff="^0.14.7"
+mypy = "^1.19.0"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+
+[tool.black]
+line-length = 120
+target-version = ['py313']
+
+
+[tool.ruff]
+fix = false
+target-version = "py313"
+line-length = 120
+
+
+[tool.ruff.format]
+docstring-code-format = true
+docstring-code-line-length = 120
+
+
+[tool.ruff.lint.isort]
+case-sensitive = true
+force-single-line=true
+lines-between-types = 1
+no-sections = false
+
