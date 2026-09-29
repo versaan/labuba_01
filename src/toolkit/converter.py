@@ -42,8 +42,8 @@ def convert(value: float, from_unit: str, to_unit: str) -> float:
         value = float(value)
     except (ValueError, TypeError):
         raise InvalidValueError(value)
-    from_unit = from_unit.lower()
-    to_unit = to_unit.lower()
+    from_unit = from_unit.strip().lower()
+    to_unit = to_unit.strip().lower()
     from_unit_category = _get_category(from_unit)
     to_unit_category = _get_category(to_unit)
     if from_unit_category != to_unit_category:

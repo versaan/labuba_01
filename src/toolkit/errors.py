@@ -27,13 +27,16 @@ class ConverterError(ToolkitError):
 class EmptyExpressionError(CalculatorError):
     """Raised when an empty expression is provided to the calculator."""
 
-    pass
+    def __init__(self, message: str = "You cannot pass an empty value."):
+        super().__init__(message)
 
 
 class InvalidCharacterError(CalculatorError):
     """Raised when an invalid character is found in the expression."""
 
-    pass
+    def __init__(self, character: str, message: str = "Invalid character in expression."):
+        self.character = character
+        super().__init__(f"{message} Character: {character}")
 
 
 class ConsecutiveOperatorsError(CalculatorError):
