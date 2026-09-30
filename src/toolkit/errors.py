@@ -42,19 +42,38 @@ class InvalidCharacterError(CalculatorError):
 class ConsecutiveOperatorsError(CalculatorError):
     """Raised when consecutive operators are found in the expression."""
 
+    def __init__(
+        self,
+        operator1: str | float,
+        operator2: str | float,
+        message: str = "Consecutive operators were detected in the expression.",
+    ):
+        self.operator1 = operator1
+        self.operator2 = operator2
+        super().__init__(f"{message} {operator1}{operator2}")
+
     pass
 
 
 class MissingOperandError(CalculatorError):
     """Raised when an operand is missing in the expression."""
 
-    pass
+    def __init__(self, operator: str | float, message: str = "The expression is missing an operand."):
+        self.operator = operator
+        super().__init__(f"{message} {operator}")
 
 
 class DivisionByZeroError(CalculatorError):
     """Raised when division by zero is attempted in the calculator."""
 
     pass
+
+
+class UnbalancedParenthesesError(CalculatorError):
+    """Raised when parentheses are unbalanced or mismatched."""
+
+    def __init__(self, message: str = "Unbalanced parentheses in expression."):
+        super().__init__(message)
 
 
 class UnknownUnitError(ConverterError):

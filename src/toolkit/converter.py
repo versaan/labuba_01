@@ -1,18 +1,15 @@
+from constants import UNITS_OF_MEASUREMEN
+
 from toolkit.errors import BelowAbsoluteZeroError
 from toolkit.errors import IncompatibleUnitsError
 from toolkit.errors import InvalidValueError
 from toolkit.errors import UnknownUnitError
 
-units_of_measurement: dict[str, dict[str, float]] = {
-    "length": {"mm": 1.0, "cm": 10.0, "m": 1000.0, "km": 1_000_000.0},
-    "mass": {"g": 1.0, "kg": 1_000.0},
-}
-
 
 def _get_category(unit: str) -> str:
-    if unit in units_of_measurement["length"]:
+    if unit in UNITS_OF_MEASUREMEN["length"]:
         return "length"
-    elif unit in units_of_measurement["mass"]:
+    elif unit in UNITS_OF_MEASUREMEN["mass"]:
         return "mass"
     elif unit in ("c", "f", "k"):
         return "temperature"
@@ -51,14 +48,14 @@ def convert(value: float, from_unit: str, to_unit: str) -> float:
     if from_unit_category == "length":
         return (
             value
-            * units_of_measurement[from_unit_category][from_unit]
-            / units_of_measurement[from_unit_category][to_unit]
+            * UNITS_OF_MEASUREMEN[from_unit_category][from_unit]
+            / UNITS_OF_MEASUREMEN[from_unit_category][to_unit]
         )
     elif from_unit_category == "mass":
         return (
             value
-            * units_of_measurement[from_unit_category][from_unit]
-            / units_of_measurement[from_unit_category][to_unit]
+            * UNITS_OF_MEASUREMEN[from_unit_category][from_unit]
+            / UNITS_OF_MEASUREMEN[from_unit_category][to_unit]
         )
-    elif from_unit_category == "temperature":
+    else:
         return _convert_temperature(value, from_unit, to_unit)
