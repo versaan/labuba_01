@@ -1,6 +1,7 @@
 import re
 
 from toolkit.constants import BINARY_OPERATOR
+from toolkit.constants import PRECEDENCE
 from toolkit.constants import TOKEN_REGEX
 from toolkit.errors import ConsecutiveOperatorsError
 from toolkit.errors import EmptyExpressionError
@@ -78,3 +79,24 @@ def validate(tokens: list[float | str]) -> None:
             or (prev == ")" and curr == "(")
         ):  # Неявное умножение: 2(3) или (2)3 или (2)(3)
             raise MissingOperandError("*", "Implicit multiplication is not supported.")
+
+
+def _sort_station(infix_notation: list[float | str]) -> list[float | str]:  # перевод в RPN
+    result = []
+    stack = []
+    for token in infix_notation:
+        if isinstance(token, float):
+            result.append(token)
+        elif token == "(":
+            stack.append(token)
+        elif token == ")":
+            while stack and stack[-1] != "(":
+                result.append(stack.pop())
+            stack.pop()
+        elif token in PRECEDENCE:
+            while stack and stack[-1] != "(" and PRECEDENCE[stack[-1]] >= PRECEDENCE[token]:
+                result.append(stack.pop())
+            stack.append(token)
+    while stack:
+        result.append(stack.pop())
+    return result

@@ -14,3 +14,12 @@ token_specifications = [
 ]
 TOKEN_REGEX = re.compile("|".join(f"(?P<{name}>{reg})" for name, reg in token_specifications))
 BINARY_OPERATOR = {"+", "-", "*", "/", "//", "%"}
+PRECEDENCE = {
+    "+": 1,
+    "-": 1,
+    "*": 2,
+    "/": 2,
+    "//": 2,
+    "%": 2,
+    "u-": 3,
+}
