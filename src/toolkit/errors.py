@@ -52,8 +52,6 @@ class ConsecutiveOperatorsError(CalculatorError):
         self.operator2 = operator2
         super().__init__(f"{message} {operator1}{operator2}")
 
-    pass
-
 
 class MissingOperandError(CalculatorError):
     """Raised when an operand is missing in the expression."""
@@ -66,7 +64,8 @@ class MissingOperandError(CalculatorError):
 class DivisionByZeroError(CalculatorError):
     """Raised when division by zero is attempted in the calculator."""
 
-    pass
+    def __init__(self, message: str = "You cannot divide by zero."):
+        super().__init__(message)
 
 
 class UnbalancedParenthesesError(CalculatorError):

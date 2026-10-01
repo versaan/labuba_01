@@ -4,6 +4,7 @@ from toolkit.constants import BINARY_OPERATOR
 from toolkit.constants import PRECEDENCE
 from toolkit.constants import TOKEN_REGEX
 from toolkit.errors import ConsecutiveOperatorsError
+from toolkit.errors import DivisionByZeroError
 from toolkit.errors import EmptyExpressionError
 from toolkit.errors import InvalidCharacterError
 from toolkit.errors import MissingOperandError
@@ -100,3 +101,37 @@ def _sort_station(infix_notation: list[float | str]) -> list[float | str]:  # п
     while stack:
         result.append(stack.pop())
     return result
+
+
+def _eval_rpn(rpn: list[float | str]) -> float:
+    stack = []
+    for token in rpn:
+        if isinstance(token, float):
+            stack.append(token)
+        elif token in BINARY_OPERATOR:
+            b = stack.pop()
+            a = stack.pop()
+            if token == "+":
+                stack.append(a + b)
+            elif token == "-":
+                stack.append(a - b)
+            elif token == "*":
+                stack.append(a * b)
+            elif token in ("/", "//", "%"):
+                if b == 0:
+                    raise DivisionByZeroError()
+                elif token == "/":
+                    stack.append(a / b)
+                elif token == "//":
+                    stack.append(a // b)
+                elif token == "%":
+                    stack.append(a % b)
+        elif token == "u-":
+            stack[-1] = stack[-1] * (-1)
+    return stack[0]
+
+
+def calculate(expression: str) -> float:
+    tokens = tokenize(expression)
+    validate(tokens)
+    return _eval_rpn(_sort_station(tokens))
